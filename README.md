@@ -1,5 +1,7 @@
 # This is a solution for the below problem asked while registering:
 
+## Go to directory and in cmd use task or .\task and in powershell use ./task or .\task
+
 
 ## Global Digital Corps - Software Engineering Test Problem | Priority list
 
