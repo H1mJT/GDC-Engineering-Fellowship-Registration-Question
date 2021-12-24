@@ -97,7 +97,7 @@ def delete(z):
         print("Deleted task #"+str(z))
     
 
-
+#Done task block
 def done(m):
     try:
         m=int(m)
@@ -150,11 +150,7 @@ def done(m):
         print("Marked item as done.")
             
     
-                    
-
-    
-    
-
+#Report task block                    
 def report():
     file = open("task.txt","r")
     Counter = 0
@@ -198,7 +194,7 @@ def report():
         i=i+1
 
 
-#To call specific blocks from command line variables like add, report, del, done, ls, help
+#calls specific blocks from command line variables like add, report, del, done, ls, help
 
 if len(sys.argv) == 1:
     help1()
