@@ -2,7 +2,7 @@ import sys, operator
 
 
 
-def help():
+def help1():
     print('''Usage :-
 $ ./task add 2 hello world    # Add a new item with priority 2 and text "hello world" to the list
 $ ./task ls                   # Show incomplete priority list items sorted by priority in ascending order
@@ -60,8 +60,18 @@ def delete(z):
         print("Index must be an integer.")
         exit()
 
-    try:
+    file = open("task.txt","r")
+    Counter = 0
+    Content = file.read()
+    CoList = Content.split("\n")
+      
+    for i in CoList:
+        if i:
+            Counter += 1
     
+    if Counter < z:
+        print('item with index ', z, ' does not exist. Nothing deleted.')
+    else:
         lines={}
         try:
             file=open("task.txt")
@@ -83,8 +93,6 @@ def delete(z):
                 if wor.strip("\n") != d[z-1][0]:
                     f.write(word)
         print("Deleted task #"+str(z))
-    except:
-        print('item with index ', z, ' does not exist. Nothing deleted.')
     
 
 
@@ -94,7 +102,19 @@ def done(m):
     except:
         print("Index must be an integer.")
         exit()
-    try:
+   
+    file = open("task.txt","r")
+    Counter = 0
+    Content = file.read()
+    CoList = Content.split("\n")
+    
+    for i in CoList:
+        if i:
+            Counter += 1
+    if Counter < m:
+        print('item with index ', m, ' does not exist. Nothing marked as done.')
+
+    else:
         
         lines={}
         file=open("task.txt")
@@ -126,8 +146,7 @@ def done(m):
                     fs.write(wor)
         print("Marked item as done.")
             
-    except:
-        print('no incomplete item with index', m, 'exists.')
+    
                     
 
     
@@ -174,4 +193,43 @@ def report():
     for line in file:
         print(str(i)+'. '+str(line))
         i=i+1
+
+
+
+if len(sys.argv) == 1:
+    help1()
+    exit()
+else:
+    func=str(sys.argv[1])
+
+if func == "add":
+    if len(sys.argv) == 4:
+        prio=str(sys.argv[2])
+        text=str(sys.argv[3])
+        add(prio,text)
+    else:
+        print("Not enough parameters in command.")
+        
+    
+elif func == "ls":
+    ls()
+elif func == "help":
+    help1()
+elif func == "del":
+    if len(sys.argv) == 3:
+        prio=str(sys.argv[2])
+        delete(prio)
+    else:
+        print("Not enough parameters in command.")
+elif func == "done":
+    if len(sys.argv) == 3:
+        prio=str(sys.argv[2])
+        done(prio)
+    else:
+        print("Not enough parameters in command.")
+elif func == "report":
+    report()
+else:
+    print("\nWrong command. PLease refer to help.\n\n")
+    help1()
 
