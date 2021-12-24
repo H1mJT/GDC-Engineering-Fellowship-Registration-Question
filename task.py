@@ -1,7 +1,7 @@
 import sys, operator
 
 
-
+#Help block
 def help1():
     print('''Usage :-
 $ ./task add 2 hello world    # Add a new item with priority 2 and text "hello world" to the list
@@ -11,9 +11,9 @@ $ ./task done INDEX           # Mark the incomplete item with the given index as
 $ ./task help                 # Show usage
 $ ./task report               # Statistics''')
 
+#Add task block
 def add(x,y):
-    
-
+    #Checks if Priority input is integer.
     try :
         z=int(x)
     except:
@@ -22,17 +22,19 @@ def add(x,y):
 
     x=str(x)
     y=str(y)
+    #Checks if task.txt file exists, if exists it opens it else creates the file and opens it.
     try:
         f=open("task.txt", "a")
     except:
         fa= open("task.txt","w+")
         fa.close()
         f=open("task.txt","a")
+    #Writes the task to text file and prints output.
     f.write(x+" "+y+"\n" )
     print('Added task: "'+y+'" with priority',x)
     f.close()
 
-
+#List tasks block
 def ls():
     lines={}
     try:
@@ -41,9 +43,9 @@ def ls():
         print("No tasks remained.")
     i=0
     for line in file:
-        pieces=line.split(" ",1)
-        lines[pieces[1].strip("\n")]=pieces[0]
-    d=sorted(lines.items(), key=operator.itemgetter(1))
+        pieces=line.split(" ",1)  
+        lines[pieces[1].strip("\n")]=pieces[0]    #Stores the tasks and priority as key value pair in dict
+    d=sorted(lines.items(), key=operator.itemgetter(1))    #Sorts the dict by priority
     for word in d:    
         print(str(i+1)+". "+d[i][0]+ " ["+str(d[i][1])+"]\n")
         i=i+1
@@ -52,14 +54,14 @@ def ls():
     file.close()
 
 
-
+#del task block
 def delete(z):
     try:
         z=int(z)
     except:
         print("Index must be an integer.")
         exit()
-
+    #Counts number of lines in task.txt
     file = open("task.txt","r")
     Counter = 0
     Content = file.read()
@@ -68,7 +70,7 @@ def delete(z):
     for i in CoList:
         if i:
             Counter += 1
-    
+    #Checks if the given index exists
     if Counter < z:
         print('item with index ', z, ' does not exist. Nothing deleted.')
     else:
@@ -81,8 +83,8 @@ def delete(z):
         
         for line in file:
             pieces=line.split(" ",1)
-            lines[pieces[1].strip("\n")]=pieces[0]
-        d=sorted(lines.items(), key=operator.itemgetter(1))
+            lines[pieces[1].strip("\n")]=pieces[0]     #Stores the tasks and priority as key value pair in dict
+        d=sorted(lines.items(), key=operator.itemgetter(1))    #Sorts the dict by priority
         file.close()
         with open("task.txt", "r") as f:
             words = f.readlines()
@@ -90,7 +92,7 @@ def delete(z):
             for word in words:
                 wor=word.split(" ",1)
                 wor=wor[1]
-                if wor.strip("\n") != d[z-1][0]:
+                if wor.strip("\n") != d[z-1][0]:       #Rewrites all the tasks in text file except for the task to be deleted. 
                     f.write(word)
         print("Deleted task #"+str(z))
     
@@ -102,7 +104,7 @@ def done(m):
     except:
         print("Index must be an integer.")
         exit()
-   
+    #Counts number of lines in task.txt
     file = open("task.txt","r")
     Counter = 0
     Content = file.read()
@@ -111,6 +113,7 @@ def done(m):
     for i in CoList:
         if i:
             Counter += 1
+    #Checks if the given index exists
     if Counter < m:
         print('item with index ', m, ' does not exist. Nothing marked as done.')
 
@@ -138,10 +141,10 @@ def done(m):
             for word in words:
                 wor=word.split(" ",1)
                 wor=wor[1]
-                if wor.strip("\n") != d[m-1][0]:
+                if wor.strip("\n") != d[m-1][0]:     #Rewrites all the tasks in task.txt file except for the task to be marked as done.
                     f.write(word)
                     
-                else:
+                else:                                #Writes the task to be done on completed.txt
                     
                     fs.write(wor)
         print("Marked item as done.")
@@ -156,7 +159,7 @@ def report():
     file = open("task.txt","r")
     Counter = 0
       
-   
+    #Counts number of lines in task.txt
     Content = file.read()
     CoList = Content.split("\n")
       
@@ -170,8 +173,8 @@ def report():
     i=0
     for line in file:
         pieces=line.split(" ",1)
-        lines[pieces[1].strip("\n")]=pieces[0]
-    d=sorted(lines.items(), key=operator.itemgetter(1))
+        lines[pieces[1].strip("\n")]=pieces[0]            #Stores the tasks and priority as key value pair in dict
+    d=sorted(lines.items(), key=operator.itemgetter(1))   #Sorts the dict by priority
     for word in d:    
         print(str(i+1)+". "+str(d[i][0])+" ["+ str(d[i][1])+ "]\n")
         i=i+1
@@ -179,7 +182,7 @@ def report():
     file = open("completed.txt","r")
     Counter = 0
       
-   
+    #Counts number of lines in completed.txt
     Content = file.read()
     CoList = Content.split("\n")
       
@@ -195,6 +198,7 @@ def report():
         i=i+1
 
 
+#To call specific blocks from command line variables like add, report, del, done, ls, help
 
 if len(sys.argv) == 1:
     help1()
