@@ -44,7 +44,7 @@ def ls():
     i=0
     for line in file:
         pieces=line.split(" ",1)  
-        lines[pieces[1].strip("\n")]=pieces[0]    #Stores the tasks and priority as key value pair in dict
+        lines[pieces[1].strip("\n")]=pieces[0]             #Stores the tasks and priority as key value pair in dict
     d=sorted(lines.items(), key=operator.itemgetter(1))    #Sorts the dict by priority
     for word in d:    
         print(str(i+1)+". "+d[i][0]+ " ["+str(d[i][1])+"]\n")
@@ -83,7 +83,7 @@ def delete(z):
         
         for line in file:
             pieces=line.split(" ",1)
-            lines[pieces[1].strip("\n")]=pieces[0]     #Stores the tasks and priority as key value pair in dict
+            lines[pieces[1].strip("\n")]=pieces[0]             #Stores the tasks and priority as key value pair in dict
         d=sorted(lines.items(), key=operator.itemgetter(1))    #Sorts the dict by priority
         file.close()
         with open("task.txt", "r") as f:
@@ -92,7 +92,7 @@ def delete(z):
             for word in words:
                 wor=word.split(" ",1)
                 wor=wor[1]
-                if wor.strip("\n") != d[z-1][0]:       #Rewrites all the tasks in text file except for the task to be deleted. 
+                if wor.strip("\n") != d[z-1][0]:                #Rewrites all the tasks in text file except for the task to be deleted. 
                     f.write(word)
         print("Deleted task #"+str(z))
     
