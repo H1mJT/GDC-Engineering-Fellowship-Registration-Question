@@ -26,7 +26,7 @@ def count(x):
 
 #Help block
 def help1():
-    print("Usage :-\n$ ./task add 2 hello world    # Add a new item with priority 2 and text \"hello world\" to the list\n$ ./task ls                   # Show incomplete priority list items sorted by priority in ascending order\n$ ./task del INDEX            # Delete the incomplete item with the given index\n$ ./task done INDEX           # Mark the incomplete item with the given index as complete\n$ ./task help                 # Show usage\n$ ./task report               # Statistics")
+    sys.stdout.buffer.write("Usage :-\n$ ./task add 2 hello world    # Add a new item with priority 2 and text \"hello world\" to the list\n$ ./task ls                   # Show incomplete priority list items sorted by priority in ascending order\n$ ./task del INDEX            # Delete the incomplete item with the given index\n$ ./task done INDEX           # Mark the incomplete item with the given index as complete\n$ ./task help                 # Show usage\n$ ./task report               # Statistics".encode('utf8'))
 
 #Add task block
 def add(x,y):
@@ -58,7 +58,8 @@ def ls():
         d=sorted_dic()
         i=0
         for word in d:    
-            print(str(i+1)+". "+d[i][0]+ " ["+str(d[i][1])+"]\n".rstrip())
+            a=str(i+1)+". "+d[i][0]+ " ["+str(d[i][1])+"]\n"
+            sys.stdout.buffer.write(a.encode('utf8'))
             i=i+1
         if i==0:
             print("There are no pending tasks!")
@@ -145,13 +146,15 @@ def report():
         Counter=count("task.txt")
     else:
         Counter=0
-    print('Pending :', Counter)
+    b='Pending : '+str(Counter)+'\n'
+    sys.stdout.buffer.write(b.encode('utf8'))
     
     if c== True:
         d=sorted_dic()
         i=0
         for word in d:    
-            print(str(i+1)+". "+str(d[i][0])+" ["+ str(d[i][1])+ "]".rstrip())
+            a=str(i+1)+". "+str(d[i][0])+" ["+ str(d[i][1])+ "]\n"
+            sys.stdout.buffer.write(a.encode('utf8'))
             i=i+1
 
     c=os.path.exists("task.txt")
@@ -159,13 +162,16 @@ def report():
         Counter=count("completed.txt")
     else:
         Counter=0
-    print('Completed :', Counter)
+    b='Completed : '+str(Counter)+'\n'
+    sys.stdout.buffer.write(b.encode('utf8'))
     if c== True:
         file=open("completed.txt")
         i=1
         for line in file:
-            print(str(i)+'. '+str(line).rstrip())
+            a=str(i)+". "+str(line)
             i=i+1
+            sys.stdout.buffer.write(a.encode('utf8'))
+            
 
 
 #calls specific blocks from command line variables like add, report, del, done, ls, help
@@ -212,4 +218,3 @@ elif func == "report":
 else:
     print("\nWrong command. PLease refer to help.\n\n")
     help1()
-
