@@ -162,7 +162,7 @@ def report():
         Counter=count("completed.txt")
     else:
         Counter=0
-    b='Completed : '+str(Counter)+'\n'
+    b='\nCompleted : '+str(Counter)+'\n'
     sys.stdout.buffer.write(b.encode('utf8'))
     if c== True:
         file=open("completed.txt")
