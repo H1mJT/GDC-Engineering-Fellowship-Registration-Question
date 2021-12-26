@@ -220,7 +220,7 @@ test("report pending & completed tasks", () => {
   execSync(tasksTxtCli("done", "2"));
 
   let date = new Date();
-  let expected = `Pending : 1\n1. water the plants [1]\n\nCompleted : 2\n1. the thing i need to do\n2. find needle in the haystack\n`;
+  let expected = `Pending : 1\n1. water the plants [1]\nCompleted : 2\n1. the thing i need to do\n2. find needle in the haystack\n`;
   let received = execSync(tasksTxtCli("report")).toString("utf8");
   expect(received).toEqual(expect.stringContaining(expected));
 });
