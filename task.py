@@ -1,15 +1,9 @@
-import sys, operator
+import sys, operator, os.path
 
 
 #Help block
 def help1():
-    print('''Usage :-
-$ ./task add 2 hello world    # Add a new item with priority 2 and text "hello world" to the list
-$ ./task ls                   # Show incomplete priority list items sorted by priority in ascending order
-$ ./task del INDEX            # Delete the incomplete item with the given index
-$ ./task done INDEX           # Mark the incomplete item with the given index as complete
-$ ./task help                 # Show usage
-$ ./task report               # Statistics''')
+    print("Usage :-\n$ ./task add 2 hello world    # Add a new item with priority 2 and text \"hello world\" to the list\n$ ./task ls                   # Show incomplete priority list items sorted by priority in ascending order\n$ ./task del INDEX            # Delete the incomplete item with the given index\n$ ./task done INDEX           # Mark the incomplete item with the given index as complete\n$ ./task help                 # Show usage\n$ ./task report               # Statistics")
 
 #Add task block
 def add(x,y):
@@ -37,22 +31,22 @@ def add(x,y):
 #List tasks block
 def ls():
     lines={}
-    try:
+    c=os.path.exists("task.txt")
+    if c== True:
         file=open("task.txt")
-    except:
-        print("No tasks remained.")
-    i=0
-    for line in file:
-        pieces=line.split(" ",1)  
-        lines[pieces[1].strip("\n")]=pieces[0]             #Stores the tasks and priority as key value pair in dict
-    d=sorted(lines.items(), key=operator.itemgetter(1))    #Sorts the dict by priority
-    for word in d:    
-        print(str(i+1)+". "+d[i][0]+ " ["+str(d[i][1])+"]\n")
-        i=i+1
-    if i==0:
-        print("No tasks remained.")
-    file.close()
-
+        i=0
+        for line in file:
+            pieces=line.split(" ",1)  
+            lines[pieces[1].strip("\n")]=pieces[0]             #Stores the tasks and priority as key value pair in dict
+        d=sorted(lines.items(), key=operator.itemgetter(1))    #Sorts the dict by priority
+        for word in d:    
+            print(str(i+1)+". "+d[i][0]+ " ["+str(d[i][1])+"]\n".rstrip())
+            i=i+1
+        if i==0:
+            print("There are no pending tasks!")
+        file.close()
+    else:
+        print("There are no pending tasks!")
 
 #del task block
 def delete(z):
@@ -71,8 +65,10 @@ def delete(z):
         if i:
             Counter += 1
     #Checks if the given index exists
-    if Counter < z:
-        print('item with index ', z, ' does not exist. Nothing deleted.')
+    if z==0: print('Error: task with index #'+ str(z)+' does not exist. Nothing deleted.')
+    elif Counter < z:
+        print('Error: task with index #'+ str(z)+' does not exist. Nothing deleted.')
+    
     else:
         lines={}
         try:
@@ -114,9 +110,10 @@ def done(m):
         if i:
             Counter += 1
     #Checks if the given index exists
-    if Counter < m:
-        print('item with index ', m, ' does not exist. Nothing marked as done.')
-
+    if m==0: print('Error: no incomplete item with index #'+str(m)+' exists.')
+    elif Counter < m:
+        print('Error: no incomplete item with index #'+str(m)+' exists.')
+    
     else:
         
         lines={}
@@ -172,7 +169,7 @@ def report():
         lines[pieces[1].strip("\n")]=pieces[0]            #Stores the tasks and priority as key value pair in dict
     d=sorted(lines.items(), key=operator.itemgetter(1))   #Sorts the dict by priority
     for word in d:    
-        print(str(i+1)+". "+str(d[i][0])+" ["+ str(d[i][1])+ "]\n")
+        print(str(i+1)+". "+str(d[i][0])+" ["+ str(d[i][1])+ "]".rstrip())
         i=i+1
         
     file = open("completed.txt","r")
@@ -190,7 +187,8 @@ def report():
     file=open("completed.txt")
     i=1
     for line in file:
-        print(str(i)+'. '+str(line))
+        print(str(i)+'. '+str(line)+'\n'.rstrip())
+        #print('\n')
         i=i+1
 
 
@@ -208,7 +206,7 @@ if func == "add":
         text=str(sys.argv[3])
         add(prio,text)
     else:
-        print("Not enough parameters in command.")
+        print("Error: Missing tasks string. Nothing added!")
         
     
 elif func == "ls":
@@ -220,13 +218,13 @@ elif func == "del":
         prio=str(sys.argv[2])
         delete(prio)
     else:
-        print("Not enough parameters in command.")
+        print("Error: Missing NUMBER for deleting tasks.")
 elif func == "done":
     if len(sys.argv) == 3:
         prio=str(sys.argv[2])
         done(prio)
     else:
-        print("Not enough parameters in command.")
+        print("Error: Missing NUMBER for marking tasks as done.")
 elif func == "report":
     report()
 else:
