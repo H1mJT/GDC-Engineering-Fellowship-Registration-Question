@@ -2,7 +2,7 @@
 
 ## Go to directory and in cmd use task or .\task and in powershell use ./task or .\task
 
-All the required features works, but in automate test 4 test fails out of 16 due to a character "·" apperaring at the end of lines and I couldn't remove it. 
+All the required features works, but in automate test 4 test fails out of 16 due to a character "·" apperaring at the end of lines which I don't know why it's apperaing and couldn't remove it. 
 For automate test run "npm install" for the first time and after that "npm test" on directory cmd.
 <br>
 
