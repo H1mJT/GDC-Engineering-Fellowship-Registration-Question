@@ -187,8 +187,7 @@ def report():
     file=open("completed.txt")
     i=1
     for line in file:
-        print(str(i)+'. '+str(line)+'\n'.rstrip())
-        #print('\n')
+        print(str(i)+'. '+str(line).rstrip())
         i=i+1
 
 
