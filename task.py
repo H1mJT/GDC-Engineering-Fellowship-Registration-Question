@@ -1,5 +1,28 @@
 import sys, operator, os.path
 
+#Get output sorted by priority
+def sorted_dic():
+    lines={}
+    file=open("task.txt")
+    for line in file:
+        pieces=line.split(" ",1)  
+        lines[pieces[1].strip("\n")]=pieces[0]             #Stores the tasks and priority as key value pair in dict
+    d=sorted(lines.items(), key=operator.itemgetter(1))    #Sorts the dict by priority
+    file.close()
+    return d
+
+#Counts Number of lines in txt file
+def count(x):
+    file = open(x,"r")
+    Counter = 0
+    Content = file.read()
+    CoList = Content.split("\n")
+      
+    for i in CoList:
+        if i:
+            Counter += 1
+    file.close()
+    return Counter
 
 #Help block
 def help1():
@@ -30,21 +53,15 @@ def add(x,y):
 
 #List tasks block
 def ls():
-    lines={}
     c=os.path.exists("task.txt")
     if c== True:
-        file=open("task.txt")
+        d=sorted_dic()
         i=0
-        for line in file:
-            pieces=line.split(" ",1)  
-            lines[pieces[1].strip("\n")]=pieces[0]             #Stores the tasks and priority as key value pair in dict
-        d=sorted(lines.items(), key=operator.itemgetter(1))    #Sorts the dict by priority
         for word in d:    
             print(str(i+1)+". "+d[i][0]+ " ["+str(d[i][1])+"]\n".rstrip())
             i=i+1
         if i==0:
             print("There are no pending tasks!")
-        file.close()
     else:
         print("There are no pending tasks!")
 
@@ -55,33 +72,17 @@ def delete(z):
     except:
         print("Index must be an integer.")
         exit()
-    #Counts number of lines in task.txt
-    file = open("task.txt","r")
-    Counter = 0
-    Content = file.read()
-    CoList = Content.split("\n")
-      
-    for i in CoList:
-        if i:
-            Counter += 1
+    c=os.path.exists("task.txt")
+    if c== True:
+        Counter=count("task.txt")
+    else:
+        print("There are no pending tasks! Nothing deleted.")
+        exit()
     #Checks if the given index exists
     if z==0: print('Error: task with index #'+ str(z)+' does not exist. Nothing deleted.')
-    elif Counter < z:
-        print('Error: task with index #'+ str(z)+' does not exist. Nothing deleted.')
-    
+    elif Counter < z: print('Error: task with index #'+ str(z)+' does not exist. Nothing deleted.')
     else:
-        lines={}
-        try:
-            file=open("task.txt")
-        except:
-            print("No tasks to delete.")
-        
-        
-        for line in file:
-            pieces=line.split(" ",1)
-            lines[pieces[1].strip("\n")]=pieces[0]             #Stores the tasks and priority as key value pair in dict
-        d=sorted(lines.items(), key=operator.itemgetter(1))    #Sorts the dict by priority
-        file.close()
+        d=sorted_dic()
         with open("task.txt", "r") as f:
             words = f.readlines()
         with open("task.txt", "w") as f:
@@ -100,24 +101,20 @@ def done(m):
     except:
         print("Index must be an integer.")
         exit()
-    #Counts number of lines in task.txt
-    file = open("task.txt","r")
-    Counter = 0
-    Content = file.read()
-    CoList = Content.split("\n")
     
-    for i in CoList:
-        if i:
-            Counter += 1
+    c=os.path.exists("task.txt")
+    if c== True:
+        Counter=count("task.txt")
+    else:
+        print("There are no pending tasks! Please add tasks before marking as done.")
+        exit()
     #Checks if the given index exists
     if m==0: print('Error: no incomplete item with index #'+str(m)+' exists.')
     elif Counter < m:
         print('Error: no incomplete item with index #'+str(m)+' exists.')
     
     else:
-        
-        lines={}
-        file=open("task.txt")
+
         try:
             fs=open("completed.txt", "a")
         except:
@@ -125,13 +122,7 @@ def done(m):
             fg.close()
             fs=open("completed.txt", "a")
         
-        #print(m-1)
-        
-        for line in file:
-            pieces=line.split(" ",1)
-            lines[pieces[1].strip("\n")]=pieces[0]
-        d=sorted(lines.items(), key=operator.itemgetter(1))
-        file.close()
+        d=sorted_dic()
         with open("task.txt", "r") as f:
             words = f.readlines()
         with open("task.txt", "w") as f:
@@ -149,46 +140,32 @@ def done(m):
     
 #Report task block                    
 def report():
-    file = open("task.txt","r")
-    Counter = 0
-      
-    #Counts number of lines in task.txt
-    Content = file.read()
-    CoList = Content.split("\n")
-      
-    for i in CoList:
-        if i:
-            Counter += 1
+    c=os.path.exists("task.txt")
+    if c== True:
+        Counter=count("task.txt")
+    else:
+        Counter=0
     print('Pending :', Counter)
     
-    lines={}
-    file=open("task.txt")
-    i=0
-    for line in file:
-        pieces=line.split(" ",1)
-        lines[pieces[1].strip("\n")]=pieces[0]            #Stores the tasks and priority as key value pair in dict
-    d=sorted(lines.items(), key=operator.itemgetter(1))   #Sorts the dict by priority
-    for word in d:    
-        print(str(i+1)+". "+str(d[i][0])+" ["+ str(d[i][1])+ "]".rstrip())
-        i=i+1
-        
-    file = open("completed.txt","r")
-    Counter = 0
-      
-    #Counts number of lines in completed.txt
-    Content = file.read()
-    CoList = Content.split("\n")
-      
-    for i in CoList:
-        if i:
-            Counter += 1
+    if c== True:
+        d=sorted_dic()
+        i=0
+        for word in d:    
+            print(str(i+1)+". "+str(d[i][0])+" ["+ str(d[i][1])+ "]".rstrip())
+            i=i+1
+
+    c=os.path.exists("task.txt")
+    if c== True:
+        Counter=count("completed.txt")
+    else:
+        Counter=0
     print('Completed :', Counter)
-   
-    file=open("completed.txt")
-    i=1
-    for line in file:
-        print(str(i)+'. '+str(line).rstrip())
-        i=i+1
+    if c== True:
+        file=open("completed.txt")
+        i=1
+        for line in file:
+            print(str(i)+'. '+str(line).rstrip())
+            i=i+1
 
 
 #calls specific blocks from command line variables like add, report, del, done, ls, help
@@ -204,6 +181,8 @@ if func == "add":
         prio=str(sys.argv[2])
         text=str(sys.argv[3])
         add(prio,text)
+    elif len(sys.argv) > 4:
+        print("Error: Please follow format 'task add 4 \"Hello world\"' where 4 is priority and Hello world is task to be added.\nTask \"Hello World\" must be within double quote.")
     else:
         print("Error: Missing tasks string. Nothing added!")
         
@@ -216,12 +195,16 @@ elif func == "del":
     if len(sys.argv) == 3:
         prio=str(sys.argv[2])
         delete(prio)
+    elif len(sys.argv) > 3:
+        print("Error: Please follow format 'task del 4' where 4 is index to be deleted.") 
     else:
         print("Error: Missing NUMBER for deleting tasks.")
 elif func == "done":
     if len(sys.argv) == 3:
         prio=str(sys.argv[2])
         done(prio)
+    elif len(sys.argv) > 3:
+        print("Error: Please follow format 'task done 4' where 4 is index to be marked as done.")
     else:
         print("Error: Missing NUMBER for marking tasks as done.")
 elif func == "report":
