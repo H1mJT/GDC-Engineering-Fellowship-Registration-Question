@@ -1,4 +1,4 @@
-# This is a solution for the below [problem asked](https://github.com/H1mJT/GDC-Engineering-Fellowship-Registration-Question/blob/main/README.md#global-digital-corps---software-engineering-test-problem--priority-list) while registering:
+# This is a solution for the [below problem](https://github.com/H1mJT/GDC-Engineering-Fellowship-Registration-Question/blob/main/README.md#global-digital-corps---software-engineering-test-problem--priority-list) asked while registering:
 
 ## Go to directory and in cmd use task or .\task and in powershell use ./task or .\task
 
