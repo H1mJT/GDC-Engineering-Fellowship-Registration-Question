@@ -11,7 +11,7 @@ EDIT: This problem was already mentioned in Readme, missed it. It is simply due 
 For automate test run "npm install" for the first time and after that "npm test" on directory cmd.
 <br>
 
-## Global Digital Corps - Software Engineering Test Problem | Priority list
+# Global Digital Corps - Software Engineering Test Problem | Priority list
 
 Thanks for applying to the Global Digital Corps!
 
